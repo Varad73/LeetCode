@@ -1,0 +1,94 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int partition(vector<int> &arr, int low, int high, int &comp, int &swaps, bool userand){
+    if(userand){
+        int pivotindex = low + rand() % (high - low + 1);
+        swap(arr[pivotindex], arr[low]);
+        swaps++;
+    }
+    int pivot = arr[low];
+    int left = low + 1;
+    int right = high;
+
+    while(true){
+        while(left <= right){
+            comp++;
+            if(arr[left] <= pivot){
+                left++;
+            }else{
+                break;
+            }
+        }
+        while(left <= right){
+            comp++;
+            if(arr[right] >= pivot){
+                right--;
+            }
+            else{
+                break;
+            }
+        }
+        if(left > right){
+            break;
+        }
+        swap(arr[left], arr[right]);
+        swaps++;
+    }
+    swap(arr[low], arr[right]);
+    swaps++;
+    return right;
+
+}
+
+    void quicksort(vector<int> &arr, int low, int high, int &comp, int &swaps, bool userand)
+{
+    if(low >= high){
+        return;
+    }
+    int pivot = partition(arr, low, high, comp, swaps, userand);
+
+    quicksort(arr, low, pivot - 1, comp, swaps, userand);
+    quicksort(arr, pivot + 1, comp, swaps, userand);
+}
+
+int main(){
+    srand(time(0));
+
+    vector<int> arr = {10, 7, 8, 9, 1, 5};
+
+    vector<int> arr2 = arr;
+
+
+}
+
+
+import matplotlib.pyplot as plt
+
+def f(x):
+    return (x + 3) ** 2
+
+def derivative(x):
+    return 2* (x + 3)
+
+x = float(input("Enter initial value of x: "))
+iterations = int(input("Enter no of iterations: "))
+rate = float(input("Enter learning rate: "))
+
+curve = [(x, f(x))]
+
+for i in range(iterations):
+    gradient = derivative(i)
+    x = x - rate * gradient
+
+    print(f"Iteration {i + 1} : x = {x : .4f}, f(x) = {f(x) : .4f}")
+    curve.append((x, f(x)))
+
+x_val, y_val = zip(*curve)
+
+plt.scatter(x_val, y_val)
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.title("Gradient Descent")
+plt.grid()
+plt.show()
